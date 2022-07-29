@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="task title"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/item_task_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="task description"
+        android:textSize="18dp"/>
+
+
+    <TextView
+        android:id="@+id/item_task_employee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="by employee"
+        android:textSize="18dp"/>
+
+
+    <TextView
+        android:id="@+id/item_task_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="at task time"
+        android:textSize="18dp"/>
+
+</LinearLayout>

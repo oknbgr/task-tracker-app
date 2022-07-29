@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".ui.activities.LoginActivity">
+
+    <EditText
+        android:id="@+id/et_login_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textSize="30sp"
+        android:hint="user id"/>
+
+    <EditText
+        android:id="@+id/et_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textSize="30sp"
+        android:hint="user password"/>
+
+    <RadioGroup
+        android:id="@+id/rg_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_login_employee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="employee"
+            android:textSize="25sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_login_director"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="director"
+            android:textSize="25sp"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="logın"
+        android:textSize="35dp"/>
+
+</LinearLayout>
