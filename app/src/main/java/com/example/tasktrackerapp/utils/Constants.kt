@@ -5,5 +5,8 @@ object Constants {
     const val EMPLOYEES: String = "employees"
     const val DIRECTORS: String = "directors"
 
+    const val TASKS: String = "tasks"
+    const val USER_ID: String = "user_id"
+
 
 }

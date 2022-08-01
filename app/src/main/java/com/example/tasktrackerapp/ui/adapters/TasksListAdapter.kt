@@ -30,7 +30,7 @@ open class TasksListAdapter(
         if (holder is MyViewHolder) {
             holder.itemView.item_task_title.text = model.title
             holder.itemView.item_task_description.text = model.description
-            holder.itemView.item_task_employee.text = "${model.employee.name} ${model.employee.surname} from ${model.employee.department}"
+           // holder.itemView.item_task_employee.text = "${model.name} ${model.surname} from ${model.department}"
             holder.itemView.item_task_time.text = "at ${model.time}"
         }
     }
