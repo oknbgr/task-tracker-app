@@ -9,38 +9,39 @@
     tools:context=".ui.activities.LoginActivity">
 
     <EditText
-        android:id="@+id/et_login_id"
+        android:id="@+id/et_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:textSize="30sp"
-        android:hint="user id"/>
+        android:hint="User Email"/>
 
     <EditText
         android:id="@+id/et_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:textSize="30sp"
-        android:hint="user password"/>
+        android:hint="User Password"/>
 
     <RadioGroup
-        android:id="@+id/rg_login"
+        android:id="@+id/rg_login_user_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/rb_login_employee">
 
         <RadioButton
             android:id="@+id/rb_login_employee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="employee"
+            android:text="Employee"
             android:textSize="25sp"/>
 
         <RadioButton
             android:id="@+id/rb_login_director"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="director"
+            android:text="Director"
             android:textSize="25sp"/>
     </RadioGroup>
 
@@ -48,7 +49,21 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="logın"
+        android:text="login"
         android:textSize="35dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an account?"
+        android:textSize="30sp"
+        android:paddingTop="100dp"/>
+
+    <Button
+        android:id="@+id/btn_register_from_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="35sp"/>
 
 </LinearLayout>
