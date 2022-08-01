@@ -29,6 +29,19 @@
         android:hint="Time"
         android:textSize="30sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Or select time from calendar:"
+        android:textSize="25sp"/>
+
+    <Button
+        android:id="@+id/btn_open_date_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open date and time picker"
+        android:textSize="25sp"/>
+
     <Button
         android:id="@+id/btn_add_add_new_task"
         android:layout_width="match_parent"

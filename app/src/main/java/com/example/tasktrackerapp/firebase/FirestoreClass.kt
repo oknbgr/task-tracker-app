@@ -1,14 +1,14 @@
 package com.example.tasktrackerapp.firebase
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
-import com.example.tasktrackerapp.models.Employee
+import android.widget.RadioButton
+import androidx.core.content.ContextCompat.startActivity
+import com.example.tasktrackerapp.R
 import com.example.tasktrackerapp.models.Task
 import com.example.tasktrackerapp.models.User
-import com.example.tasktrackerapp.ui.activities.AddNewTaskActivity
-import com.example.tasktrackerapp.ui.activities.DirectorActivity
-import com.example.tasktrackerapp.ui.activities.EmployeeActivity
-import com.example.tasktrackerapp.ui.activities.RegisterActivity
+import com.example.tasktrackerapp.ui.activities.*
 import com.example.tasktrackerapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,7 +40,25 @@ class FirestoreClass {
             }
     }
 
-    fun getCurrentUserID(): String{
+    fun getCurrentUserType(activity: LoginActivity) {
+        //creating a instance of current user
+        val id = FirebaseAuth.getInstance().currentUser!!.uid
+        //variable for storing user type
+        var currentUserType = ""
+
+        mFireStore.collection(Constants.USERS).document(id)
+            .get()
+            .addOnSuccessListener { document ->
+                currentUserType = document.get("type").toString()
+
+                activity.startIntentWithUserType(currentUserType)
+
+                Log.i("YYYY", "getCurrentUserType: " + currentUserType)
+            }
+
+    }
+
+    fun getCurrentUserID(): String {
         //creating a instance of current user
         val currentUser = FirebaseAuth.getInstance().currentUser
         //variable for storing user id
@@ -51,6 +69,30 @@ class FirestoreClass {
         }
 
         return currentUserID
+    }
+
+    fun getUserInfoFromUserID(id: String, /* callback: IFirestoreCallback */) : String {
+        var info = "null"
+
+        mFireStore.collection(Constants.USERS).document(id)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = task.getResult().toObject(User::class.java)
+                    info = "${user!!.name} ${user!!.surname} from ${user!!.department}"
+                    Log.i("EEEE", "getUserInfoFromUserID: " + info)
+                    //callback.userInfoReceived(info)
+                }
+
+            }
+            .addOnFailureListener { e ->
+                Log.e(
+                    javaClass.simpleName,
+                    "getUserInfoFromUserID: Error in getting user info from user id",
+                    e
+                )
+            }
+        return info
     }
 
     fun addNewTask(activity: AddNewTaskActivity, taskInfo: Task){

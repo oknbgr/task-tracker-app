@@ -1,5 +1,6 @@
 package com.example.tasktrackerapp.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -26,6 +27,12 @@ class DirectorActivity : BaseActivity() {
                 "List refreshed",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+
+        findViewById<Button>(R.id.btn_director_logout).setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

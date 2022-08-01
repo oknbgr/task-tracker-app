@@ -34,14 +34,14 @@
             android:id="@+id/rb_login_employee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Employee"
+            android:text="employees"
             android:textSize="25sp"/>
 
         <RadioButton
             android:id="@+id/rb_login_director"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Director"
+            android:text="directors"
             android:textSize="25sp"/>
     </RadioGroup>
 

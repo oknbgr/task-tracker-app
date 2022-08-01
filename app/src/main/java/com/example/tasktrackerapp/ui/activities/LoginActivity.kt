@@ -4,11 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.*
 import com.example.tasktrackerapp.R
+import com.example.tasktrackerapp.firebase.FirestoreClass
 import com.example.tasktrackerapp.utils.Constants
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : BaseActivity() {
+    // default checked radio button
+    private var checkedRadioButton: String = "employees"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -28,23 +34,62 @@ class LoginActivity : BaseActivity() {
             }
         }
 
+        findViewById<RadioGroup>(R.id.rg_login_user_type).setOnCheckedChangeListener { radioGroup, checkedID ->
+            checkedRadioButton = findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()
+        }
+
         findViewById<Button>(R.id.btn_register_from_login).setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
         }
 
         findViewById<Button>(R.id.btn_login).setOnClickListener {
-            if (validateLogin()) {
-                if (findViewById<RadioButton>(R.id.rb_login_director).isChecked) {
-                    val intent = Intent(this@LoginActivity, DirectorActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    val intent = Intent(this@LoginActivity, EmployeeActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+            loginUser()
+        }
+    }
+
+    fun startIntentWithUserType(type: String){
+        if (type != checkedRadioButton) {
+            Toast.makeText(
+                this,
+                "This user is not one of $checkedRadioButton",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            if (type == Constants.DIRECTORS) {
+                val intent = Intent(this@LoginActivity, DirectorActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this@LoginActivity, EmployeeActivity::class.java)
+                startActivity(intent)
+                finish()
             }
+        }
+    }
+
+    private fun loginUser() {
+        if (validateLogin()) {
+            showProgressDialog()
+
+            val email = findViewById<EditText>(R.id.et_login_email).text.toString().trim() {it <= ' '}
+            val password = findViewById<EditText>(R.id.et_login_password).text.toString().trim() {it <= ' '}
+
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        hideProgressDialog()
+                        FirestoreClass().getCurrentUserType(this)
+                    } else {
+                        hideProgressDialog()
+                        Toast.makeText(
+                            this,
+                            task.exception!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
         }
     }
 
