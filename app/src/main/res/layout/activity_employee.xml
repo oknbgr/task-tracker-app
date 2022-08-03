@@ -19,7 +19,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_employee_tasks"
         android:layout_width="match_parent"
-        android:layout_height="500dp"/>
+        android:layout_height="400dp"/>
 
     <Button
         android:id="@+id/btn_employee_add_new_task"

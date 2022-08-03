@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -76,16 +77,23 @@ class AddNewTaskActivity : BaseActivity() {
         }
     }
 
+    fun userInfoReceived(id: String, info: String) {
+        val task = Task(
+            id,
+            findViewById<EditText>(R.id.et_add_task_title).text.toString(),
+            findViewById<EditText>(R.id.et_add_task_description).text.toString(),
+            findViewById<EditText>(R.id.et_add_task_time).text.toString(),
+            info
+        )
+
+        FirestoreClass().addNewTask(this, task)
+    }
+
     private fun uploadTask() {
         if (validateTask()) {
-            val task = Task(
-                FirestoreClass().getCurrentUserID(),
-                findViewById<EditText>(R.id.et_add_task_title).text.toString(),
-                findViewById<EditText>(R.id.et_add_task_description).text.toString(),
-                findViewById<EditText>(R.id.et_add_task_time).text.toString()
-            )
+            val userID = FirestoreClass().getCurrentUserID()
 
-            FirestoreClass().addNewTask(this, task)
+            FirestoreClass().getUserInfoFromUserID(userID, this)
         }
     }
 

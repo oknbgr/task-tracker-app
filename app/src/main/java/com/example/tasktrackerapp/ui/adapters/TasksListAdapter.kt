@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tasktrackerapp.R
 import com.example.tasktrackerapp.firebase.FirestoreClass
 import com.example.tasktrackerapp.models.Task
-import com.example.tasktrackerapp.utils.IFirestoreCallback
 import kotlinx.android.synthetic.main.item_task_layout.view.*
 
 open class TasksListAdapter(
@@ -28,14 +27,11 @@ open class TasksListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
-        val employee = FirestoreClass().getUserInfoFromUserID(model.user_id)
-
-        //val callback = IFirestoreCallback.userInfoReceived()
 
         if (holder is MyViewHolder) {
             holder.itemView.item_task_title.text = model.title
             holder.itemView.item_task_description.text = model.description
-            holder.itemView.item_task_employee.text = employee
+            holder.itemView.item_task_employee.text = model.user_info
             holder.itemView.item_task_time.text = model.time
         }
     }

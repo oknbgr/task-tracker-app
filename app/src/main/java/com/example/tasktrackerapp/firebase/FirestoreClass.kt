@@ -71,19 +71,19 @@ class FirestoreClass {
         return currentUserID
     }
 
-    fun getUserInfoFromUserID(id: String, /* callback: IFirestoreCallback */) : String {
+    fun getUserInfoFromUserID(id: String, activity: AddNewTaskActivity) {
         var info = "null"
 
         mFireStore.collection(Constants.USERS).document(id)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = task.getResult().toObject(User::class.java)
-                    info = "${user!!.name} ${user!!.surname} from ${user!!.department}"
-                    Log.i("EEEE", "getUserInfoFromUserID: " + info)
-                    //callback.userInfoReceived(info)
-                }
 
+                    val user = task.result.toObject(User::class.java)
+                    info = "${user!!.name} ${user!!.surname} from ${user!!.department}"
+
+                    activity.userInfoReceived(id, info)
+                }
             }
             .addOnFailureListener { e ->
                 Log.e(
@@ -92,7 +92,6 @@ class FirestoreClass {
                     e
                 )
             }
-        return info
     }
 
     fun addNewTask(activity: AddNewTaskActivity, taskInfo: Task){

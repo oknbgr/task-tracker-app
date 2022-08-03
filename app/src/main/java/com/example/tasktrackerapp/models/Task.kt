@@ -9,5 +9,6 @@ data class Task(
     val title: String = "",
     val description: String = "",
     val time: String = "",
+    val user_info: String = "",
     var task_id: String = "",
 ) : Parcelable

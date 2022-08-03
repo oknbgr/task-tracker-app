@@ -9,7 +9,6 @@ import android.widget.RadioButton
 import android.widget.Toast
 import com.example.tasktrackerapp.R
 import com.example.tasktrackerapp.firebase.FirestoreClass
-import com.example.tasktrackerapp.models.Employee
 import com.example.tasktrackerapp.models.User
 import com.example.tasktrackerapp.utils.Constants
 import com.google.android.gms.tasks.OnCompleteListener
@@ -80,7 +79,7 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
-    fun registerUser(){
+    private fun registerUser(){
         if (validateDetails()) {
             showProgressDialog()
 
