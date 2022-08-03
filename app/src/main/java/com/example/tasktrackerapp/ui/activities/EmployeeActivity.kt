@@ -16,6 +16,7 @@ class EmployeeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employee)
 
+        // populate recyclerview with items
         getTasks()
 
         findViewById<Button>(R.id.btn_employee_add_new_task).setOnClickListener {
@@ -35,12 +36,14 @@ class EmployeeActivity : BaseActivity() {
         getTasks()
     }
 
+    // gets tasks from firestore
     private fun getTasks() {
         showProgressDialog()
         FirestoreClass().getTasksList(this@EmployeeActivity)
         hideProgressDialog()
     }
 
+    // when items are successfully received
     fun successEmployeeTasksListFromFireStore(list: ArrayList<Task>){
         hideProgressDialog()
 

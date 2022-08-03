@@ -19,10 +19,31 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if (intent.hasExtra("registered_email")) {
-            val mail = intent.getStringExtra("registered_email")
-            val password = intent.getStringExtra("registered_password")
-            val type = intent.getStringExtra("registered_type")
+        // if user has just registered to the system,
+        // carry info from register activity to here
+        checkIfRegistered()
+
+        // if selected user type is switched
+        findViewById<RadioGroup>(R.id.rg_login_user_type).setOnCheckedChangeListener { radioGroup, checkedID ->
+            checkedRadioButton = findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()
+        }
+
+        // if user wants to register to the system
+        findViewById<Button>(R.id.btn_register_from_login).setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btn_login).setOnClickListener {
+            loginUser()
+        }
+    }
+
+    private fun checkIfRegistered() {
+        if (intent.hasExtra(Constants.REGISTERED_EMAIL)) {
+            val mail = intent.getStringExtra(Constants.REGISTERED_EMAIL)
+            val password = intent.getStringExtra(Constants.REGISTERED_PASSWORD)
+            val type = intent.getStringExtra(Constants.REGISTERED_TYPE)
 
             findViewById<EditText>(R.id.et_login_email).setText(mail)
             findViewById<EditText>(R.id.et_login_password).setText(password)
@@ -35,21 +56,10 @@ class LoginActivity : BaseActivity() {
                 checkedRadioButton = Constants.EMPLOYEES
             }
         }
-
-        findViewById<RadioGroup>(R.id.rg_login_user_type).setOnCheckedChangeListener { radioGroup, checkedID ->
-            checkedRadioButton = findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()
-        }
-
-        findViewById<Button>(R.id.btn_register_from_login).setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btn_login).setOnClickListener {
-            loginUser()
-        }
     }
 
+    // after successful login response came from firebase,
+    // last step for checking if user selected the correct user type
     fun startIntentWithUserType(type: String){
         if (type != checkedRadioButton) {
             Toast.makeText(
@@ -70,6 +80,7 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    // checking login info from firebase
     private fun loginUser() {
         if (validateLogin()) {
             showProgressDialog()
@@ -95,6 +106,7 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    // checking if user filled all edit text fields
     private fun validateLogin(): Boolean {
         return when {
             TextUtils.isEmpty(findViewById<EditText>(R.id.et_login_email).text.toString().trim() {it <= ' '}) -> {

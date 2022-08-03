@@ -26,6 +26,7 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
+    // checking if user filled all edit text fields
     private fun validateDetails(): Boolean {
         return when {
             TextUtils.isEmpty(findViewById<EditText>(R.id.et_register_name).text.toString().trim() {it <= ' '}) -> {
@@ -79,6 +80,7 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
+    // register user to firebase
     private fun registerUser(){
         if (validateDetails()) {
             showProgressDialog()
@@ -106,7 +108,6 @@ class RegisterActivity : BaseActivity() {
                                 email,
                                 findViewById<EditText>(R.id.et_register_department).text.toString().trim() {it <= ' '},
                                 type,
-                                //task
                             )
 
                             FirestoreClass().registerUser(this, user)
@@ -123,6 +124,7 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
+    // if user registered to firebase successfully
     fun registrationSuccess() {
         hideProgressDialog()
 
@@ -132,6 +134,7 @@ class RegisterActivity : BaseActivity() {
                 Toast.LENGTH_SHORT
             ).show()
 
+        // go back to login activity and bring info entered by user
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
         intent.putExtra("registered_email", findViewById<EditText>(R.id.et_register_email).text.toString().trim() {it <= ' '})
         intent.putExtra("registered_password", findViewById<EditText>(R.id.et_register_password).text.toString().trim() {it <= ' '})

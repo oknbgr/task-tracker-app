@@ -29,6 +29,7 @@ class AddNewTaskActivity : BaseActivity() {
         }
     }
 
+    // time picker for the task
     private fun pickDateTime() {
         val currentDateTime = Calendar.getInstance()
         val startYear = currentDateTime.get(Calendar.YEAR)
@@ -39,13 +40,17 @@ class AddNewTaskActivity : BaseActivity() {
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, day ->
             TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                val pickedDateTime = Calendar.getInstance()
-                pickedDateTime.set(year, month, day, hour, minute)
-                // do something here
-
+                //val pickedDateTime = Calendar.getInstance()
+                //pickedDateTime.set(year, month, day, hour, minute)
                 val convertedToString = "$day/$month/$year at $hour:$minute"
 
                 findViewById<EditText>(R.id.et_add_task_time).setText(convertedToString)
+
+                Toast.makeText(
+                    this,
+                    "Selected time added to the field",
+                    Toast.LENGTH_SHORT
+                ).show()
 
             }, startHour, startMinute, true).show()
         }, startYear, startMonth, startDay).show()
@@ -71,13 +76,36 @@ class AddNewTaskActivity : BaseActivity() {
                 false
             }
 
+            TextUtils.isEmpty(findViewById<EditText>(R.id.et_add_task_time).text.toString().trim() {it <= ' '}) -> {
+                Toast.makeText(
+                    this,
+                    "Please enter task time",
+                    Toast.LENGTH_SHORT
+                ).show()
+                false
+            }
+
             else -> {
                 true
             }
         }
     }
 
+    private fun uploadTask() {
+        // if no field is left empty
+        if (validateTask()) {
+            showProgressDialog()
+
+            // get user id
+            val userID = FirestoreClass().getCurrentUserID()
+
+            // send it to firestore for searching for its info
+            FirestoreClass().getUserInfoFromUserID(userID, this)
+        }
+    }
+
     fun userInfoReceived(id: String, info: String) {
+        // use received info for initializing task variable
         val task = Task(
             id,
             findViewById<EditText>(R.id.et_add_task_title).text.toString(),
@@ -86,19 +114,14 @@ class AddNewTaskActivity : BaseActivity() {
             info
         )
 
+        // send new task to firestore
         FirestoreClass().addNewTask(this, task)
-    }
-
-    private fun uploadTask() {
-        if (validateTask()) {
-            val userID = FirestoreClass().getCurrentUserID()
-
-            FirestoreClass().getUserInfoFromUserID(userID, this)
-        }
     }
 
     fun addNewTaskSuccess() {
         hideProgressDialog()
+
+        // inform user for completion
         Toast.makeText(
             this,
             "Task added successfully",

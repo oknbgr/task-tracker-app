@@ -40,24 +40,6 @@ class FirestoreClass {
             }
     }
 
-    fun getCurrentUserType(activity: LoginActivity) {
-        //creating a instance of current user
-        val id = FirebaseAuth.getInstance().currentUser!!.uid
-        //variable for storing user type
-        var currentUserType = ""
-
-        mFireStore.collection(Constants.USERS).document(id)
-            .get()
-            .addOnSuccessListener { document ->
-                currentUserType = document.get("type").toString()
-
-                activity.startIntentWithUserType(currentUserType)
-
-                Log.i("YYYY", "getCurrentUserType: " + currentUserType)
-            }
-
-    }
-
     fun getCurrentUserID(): String {
         //creating a instance of current user
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -71,17 +53,37 @@ class FirestoreClass {
         return currentUserID
     }
 
-    fun getUserInfoFromUserID(id: String, activity: AddNewTaskActivity) {
-        var info = "null"
+    fun getCurrentUserType(activity: LoginActivity) {
+        //creating a instance of current user
+        val id = FirebaseAuth.getInstance().currentUser!!.uid
 
+        mFireStore.collection(Constants.USERS).document(id)
+            .get()
+            .addOnSuccessListener { document ->
+                // get "type" attribute of the user's document in firestore
+                val currentUserType = document.get(Constants.TYPE).toString()
+                activity.startIntentWithUserType(currentUserType)
+            }
+            .addOnFailureListener { e ->
+            activity.hideProgressDialog()
+
+            Log.e(activity.javaClass.simpleName,
+                "registerUser: Error occurred.",
+                e
+            )
+        }
+    }
+
+    fun getUserInfoFromUserID(id: String, activity: AddNewTaskActivity) {
         mFireStore.collection(Constants.USERS).document(id)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
+                    // convert received user info to user object
                     val user = task.result.toObject(User::class.java)
-                    info = "${user!!.name} ${user!!.surname} from ${user!!.department}"
+                    val info = "${user!!.name} ${user!!.surname} from ${user!!.department}"
 
+                    // send info back to activity
                     activity.userInfoReceived(id, info)
                 }
             }
@@ -99,6 +101,7 @@ class FirestoreClass {
             .document()
             .set(taskInfo, SetOptions.merge())
             .addOnSuccessListener {
+                // if task added to firestore successfully
                 activity.addNewTaskSuccess()
             }
             .addOnFailureListener { e ->
@@ -115,6 +118,7 @@ class FirestoreClass {
         when (activity) {
             is EmployeeActivity -> {
                 mFireStore.collection(Constants.TASKS)
+                    // filter collection items with current user id
                     .whereEqualTo(Constants.USER_ID, getCurrentUserID())
                     .get()
                     .addOnSuccessListener { document ->

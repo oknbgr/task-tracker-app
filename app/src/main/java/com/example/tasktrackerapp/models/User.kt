@@ -11,5 +11,4 @@ data class User(
     val email: String = "",
     val department: String = "",
     val type: String = "",
-    //val task: Task
 ) : Parcelable
