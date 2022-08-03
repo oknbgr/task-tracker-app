@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tasktrackerapp">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application
-        android:name=".notifications.Notification"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -42,7 +42,17 @@
             android:name=".ui.activities.MainActivity"
             android:exported="false" />
 
-        <receiver android:name=".notifications.NotificationReceiver" />
-    </application>
+        <receiver android:name=".notifications.AlarmReceiver"
+            android:enabled="true"/>
 
+        <receiver android:name=".notifications.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
 </manifest>

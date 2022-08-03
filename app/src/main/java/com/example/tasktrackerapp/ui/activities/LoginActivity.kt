@@ -1,12 +1,16 @@
 package com.example.tasktrackerapp.ui.activities
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.*
+import androidx.core.content.ContextCompat
 import com.example.tasktrackerapp.R
 import com.example.tasktrackerapp.firebase.FirestoreClass
-import com.example.tasktrackerapp.notifications.NotificationService
+import com.example.tasktrackerapp.notifications.AlarmManager
 import com.example.tasktrackerapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,6 +21,11 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        // schedules notifications to be sent at 14:00 and 16:00
+        createNotificationChannels()
+        AlarmManager.startReminder(this, 1, "14:00")
+        AlarmManager.startReminder(this, 2, "16:00")
 
         // if user has just registered to the system,
         // carry info from register activity to here
@@ -35,9 +44,20 @@ class LoginActivity : BaseActivity() {
 
         findViewById<Button>(R.id.btn_login).setOnClickListener {
             loginUser()
+        }
+    }
 
-            //val service = NotificationService(applicationContext)
-            //service.sendNotification()
+    private fun createNotificationChannels(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                Constants.NOTIFICATIONS_CHANNEL_ID,
+                "Task Tracker",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            channel.description = "Notifies employees twice a day."
+
+            ContextCompat.getSystemService(this, NotificationManager::class.java)?.createNotificationChannel(channel)
         }
     }
 
