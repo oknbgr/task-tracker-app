@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/okanb/StudioProjects/TaskTrackerApp/app/src/main/res/drawable/ic_baseline_notification_important_24.xml" value="0.1" />
         <entry key="..\:/Users/okanb/StudioProjects/TaskTrackerApp/app/src/main/res/drawable/item_divider.xml" value="0.2365" />
         <entry key="..\:/Users/okanb/StudioProjects/TaskTrackerApp/app/src/main/res/layout/activity_base.xml" value="0.259375" />
         <entry key="..\:/Users/okanb/StudioProjects/TaskTrackerApp/app/src/main/res/layout/activity_director.xml" value="0.259375" />

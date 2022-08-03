@@ -1,13 +1,12 @@
 package com.example.tasktrackerapp.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.widget.*
 import com.example.tasktrackerapp.R
 import com.example.tasktrackerapp.firebase.FirestoreClass
+import com.example.tasktrackerapp.notifications.NotificationService
 import com.example.tasktrackerapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 
@@ -36,6 +35,9 @@ class LoginActivity : BaseActivity() {
 
         findViewById<Button>(R.id.btn_login).setOnClickListener {
             loginUser()
+
+            //val service = NotificationService(applicationContext)
+            //service.sendNotification()
         }
     }
 

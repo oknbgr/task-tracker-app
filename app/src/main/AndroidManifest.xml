@@ -4,6 +4,7 @@
     package="com.example.tasktrackerapp">
 
     <application
+        android:name=".notifications.Notification"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -40,6 +41,8 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="false" />
+
+        <receiver android:name=".notifications.NotificationReceiver" />
     </application>
 
 </manifest>

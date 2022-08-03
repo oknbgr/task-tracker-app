@@ -13,4 +13,6 @@ object Constants {
     const val REGISTERED_EMAIL = "registered_email"
     const val REGISTERED_PASSWORD = "registered_password"
     const val REGISTERED_TYPE = "registered_type"
+
+    const val NOTIFICATIONS_CHANNEL_ID = "notifications_channel"
 }
