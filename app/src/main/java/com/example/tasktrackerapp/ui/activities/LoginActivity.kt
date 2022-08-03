@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : BaseActivity() {
     // default checked radio button
-    private var checkedRadioButton: String = "employees"
+    private var checkedRadioButton: String = Constants.EMPLOYEES
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +29,10 @@ class LoginActivity : BaseActivity() {
 
             if (type == Constants.DIRECTORS) {
                 findViewById<RadioGroup>(R.id.rg_login_user_type).check(R.id.rb_login_director)
+                checkedRadioButton = Constants.DIRECTORS
             } else if (type == Constants.EMPLOYEES) {
                 findViewById<RadioGroup>(R.id.rg_login_user_type).check(R.id.rb_login_employee)
+                checkedRadioButton = Constants.EMPLOYEES
             }
         }
 
